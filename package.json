@@ -1,0 +1,22 @@
+{
+  "name": "ytx-rest-api",
+  "version": "1.0.1",
+  "description": "容联云通信RestAPI nodejs版",
+  "keywords": ["容联", "云通信", "yuntx", "ytx"],
+  "license": "MIT",
+  "repository": {"type": "git", "url": "git+https://github.com/xuming314/ytx-rest-api.git"},
+  "author": {"name": "Xu Ming"},
+
+  "main": "src/index.js",
+  "devDependencies": {
+    "should": "^8.4.0"
+  },
+  "dependencies": {
+    "base-64": "^0.1.0",
+    "es6-promise": "^3.2.1",
+    "isomorphic-fetch": "^2.2.1",
+    "md5": "^2.1.0",
+    "moment": "^2.13.0",
+    "stringformat": "0.0.5"
+  }
+}
