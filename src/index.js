@@ -7,7 +7,7 @@ var moment=require('moment');
 
 
 
-var appId, accountSid, authToken='';
+var appId, accountSid, authToken;
 var protocol='https';
 var domain='app.cloopen.com';
 var port=8883;
@@ -27,8 +27,15 @@ function init(_appId, _accountSid, _authToken, options) {
 function api(path, params, callback) {
     var now=new Date();
     params.appId=appId;
-    var url=getUrl('/Accounts/{sid}/{path}?sig={sig}'.format({sid:accountSid, path:path, sig:genSig(now)}));
-    fetch(url, { headers: {'Authorization':genAuthorization(now), 'Accept':'application/json', 'Content-Type':'application/json;charset=utf-8'},
+    var sid=params.sid?params.sid:accountSid;
+    var token=params.token?params.token:authToken;
+    var url='';
+    if (params.sid) url=getUrl('/SubAccounts/{sid}/{path}?sig={sig}'.format({sid:sid, path:path, sig:genSig(sid, token, now)}));
+    else url=getUrl('/Accounts/{sid}/{path}?sig={sig}'.format({sid:accountSid, path:path, sig:genSig(sid, token, now)}));
+
+    delete params.sid;
+    delete params.token;
+    fetch(url, { headers: {'Authorization':genAuthorization(sid, now), 'Accept':'application/json', 'Content-Type':'application/json;charset=utf-8'},
         method:'POST',
         body:JSON.stringify(params)
     }).then(checkStatus).then(function(res) {
@@ -41,8 +48,8 @@ function api(path, params, callback) {
 }
 
 function getUrl(_path) { return protocol+'://'+domain+':'+port+'/'+version+_path; }
-function genSig(time) { return md5(accountSid+authToken+moment(time).format('YYYYMMDDHHmmss')).toUpperCase(); }
-function genAuthorization(time) { return base64.encode(accountSid+':'+moment(time).format('YYYYMMDDHHmmss'));}
+function genSig(sid, token, time) { return md5(sid+token+moment(time).format('YYYYMMDDHHmmss')).toUpperCase(); }
+function genAuthorization(sid, time) { return base64.encode(sid+':'+moment(time).format('YYYYMMDDHHmmss'));}
 
 
 function checkStatus(res) {
