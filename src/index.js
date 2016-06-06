@@ -64,5 +64,5 @@ function checkStatus(res) {
 
 
 
-s
+
 module.exports={init:init, api:api, sig:clientSig, timestamp:timestamp};
