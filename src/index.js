@@ -51,7 +51,7 @@ function timestamp(time) {return moment(time).format('YYYYMMDDHHmmss');}
 function getUrl(_path) { return protocol+'://'+domain+':'+port+'/'+version+_path; }
 function genSig(sid, token, time) { return md5(sid+token+timestamp(time)).toUpperCase(); }
 function genAuthorization(sid, time) { return base64.encode(sid+':'+timestamp(time));}
-
+function clientSig(username, appToken, time) { return md5(appId+username+timestamp(time)+appToken); }
 
 function checkStatus(res) {
     if (res.status>=200 && res.status<300) return res;
@@ -64,5 +64,5 @@ function checkStatus(res) {
 
 
 
-
-module.exports={init:init, api:api, genSig:genSig, timestamp:timestamp};
+s
+module.exports={init:init, api:api, sig:clientSig, timestamp:timestamp};
