@@ -47,9 +47,10 @@ function api(path, params, callback) {
     });
 }
 
+function timestamp(time) {return moment(time).format('YYYYMMDDHHmmss');}
 function getUrl(_path) { return protocol+'://'+domain+':'+port+'/'+version+_path; }
-function genSig(sid, token, time) { return md5(sid+token+moment(time).format('YYYYMMDDHHmmss')).toUpperCase(); }
-function genAuthorization(sid, time) { return base64.encode(sid+':'+moment(time).format('YYYYMMDDHHmmss'));}
+function genSig(sid, token, time) { return md5(sid+token+timestamp(time)).toUpperCase(); }
+function genAuthorization(sid, time) { return base64.encode(sid+':'+timestamp(time));}
 
 
 function checkStatus(res) {
@@ -64,4 +65,4 @@ function checkStatus(res) {
 
 
 
-module.exports={init:init, api:api};
+module.exports={init:init, api:api, genSig:genSig, timestamp};
