@@ -65,4 +65,4 @@ function checkStatus(res) {
 
 
 
-module.exports={init:init, api:api, genSig:genSig, timestamp};
+module.exports={init:init, api:api, genSig:genSig, timestamp:timestamp};
